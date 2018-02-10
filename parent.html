@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Parent Window</title>
+    <script type="text/javascript" src="assets/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="assets/jquery-ui.min.css">
+    <script src="assets/jquery.js"></script>
+    <script src="assets/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="assets/styles.css">
+
+</head>
+<body>
+    <button id="mainBtn" onclick="openIframe()">+</button>
+    <br>
+<!--     <button id=openIframe>+</button> -->
+    <br/>
+    <div id="drag">
+        <div id="results"></div>
+    </div>
+
+
+</body>
+    <script>
+        var iframeSource = 'iframe.html';
+        
+        // Create the iframe
+        function openIframe() {
+        var iframe = document.createElement('iframe');
+            iframe.setAttribute('src', iframeSource);
+            iframe.setAttribute('id', 'the_iframe drag');
+            iframe.setAttribute('sandbox', 'allow-scripts');
+            iframe.style.width = 450 + 'px';
+            iframe.style.height = 250 + 'px';
+            document.getElementById("results").appendChild(iframe);
+                    $("iframe").draggable();
+                    $("#results").draggable();
+        };
+
+        // Make the Iframe draggable
+        // $("iframe").draggable();
+
+        // addEventListener 
+        function bindEvent(element, eventName, eventHandler) {
+            if (element.addEventListener){
+                element.addEventListener(eventName, eventHandler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent('on' + eventName, eventHandler);
+            }
+        };
+
+        // Send a message to the child iframe
+        var sendMessage = function(msg) {
+            var frames = window.frames;
+            for (var i = 0; i < frames.length; i++) {
+                frames[i].postMessage(msg, "*")
+            }              
+        };
+
+        // Listen to message from child window
+        bindEvent(window, 'message', function (e) {
+            var insert = e.data; 
+            sendMessage(insert);
+        });
+    </script>
+</html>

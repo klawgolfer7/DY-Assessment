@@ -1,0 +1,24 @@
+#mainBtn {
+
+	background: #54ba4e;
+	border: 1px solid #54ba4e;
+  width: 75px;
+  height: 75px;
+  font-size: 50px;
+  border-radius: 8px;
+  color: white;
+  text-align: center;
+  display: inline-block;
+  padding-bottom: 10px;
+  cursor: pointer;
+
+}
+
+iframe {
+	border-radius: 8px;
+	border: groove;
+}
+
+#chatBoard {
+  text-decoration: underline;
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>iframe Window</title>
+    <script type="text/javascript" src="assets/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="assets/jquery-ui.min.css">
+    <script src="assets/jquery.js"></script>
+    <script src="assets/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="assets/styles.css">
+
+    <style>
+        body {
+            background-color: #D53C2F;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id='drag'>
+        <h2>Dynamic Yield Chat Room</h2>
+        <div><input type="text" id="textBox"></div>
+        <p><button id="message_button">Send Message</button></p>
+        <p id="chatBoard">Chat Board</p>
+        <div id="results">
+            <span id="addOn"></span>
+        </div>
+    </div>
+    <script>
+    $("drag").draggable({
+        start: function () {
+            $("drag").css('z-index', '-1');
+        },
+        stop: function () {
+            $("drag").css('z-index', '0');
+        }
+    });
+
+        
+        // addEventListener support for IE8
+        function bindEvent(element, eventName, eventHandler) {
+            if (element.addEventListener) {
+                element.addEventListener(eventName, eventHandler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent('on' + eventName, eventHandler);
+            }
+        }
+        // Send a message to the parent
+        var sendMessage = function (msg) {
+            // Make sure you are sending a string, and to stringify JSON
+            window.parent.postMessage(msg, '*');
+
+
+        };
+
+        var addOn = document.getElementById('addOn'),
+            messageButton = document.getElementById('message_button');
+        // Listen to messages from parent window
+        bindEvent(window, 'message', function (e) {
+            $("#addOn").append("<p>" + e.data + "</p>");
+        });
+
+        // $("#message_button").click(function(){
+        //     var insert = document.getElementById("textBox").value;
+        //     $("#addOn").append("<p>" + insert + "</p>");
+        // });
+        // Send random message data on every button click
+        bindEvent(messageButton, 'click', function (e) {
+            var insert = document.getElementById("textBox").value;
+            // $("#addOn").append("<p>" + insert + "</p>");
+            
+
+            // var insert = document.getElementById("addOn").innerHTML = document.getElementById("textBox").value;
+            sendMessage(insert);
+        });
+    </script>
+</body>
+</html>
